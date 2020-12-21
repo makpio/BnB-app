@@ -25,7 +25,7 @@ class TaskList extends React.Component {
     }
 
     componentDidMount() {
-        axios.get("/api/")
+        axios.get("http://localhost:8000/api/")
         .then(res => {
             this.setState({
                 tasks: res.data

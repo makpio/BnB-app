@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Card } from 'antd';
+import { Button, Card } from 'antd';
 
 import Tasks from '../components/Task';
 import CustomForm from '../components/Form'
@@ -13,13 +13,19 @@ class TaskDetail extends React.Component {
 
     componentDidMount() {
         const taskId = this.props.match.params.taskId;
-        axios.get(`/api/${taskId}`)
+        axios.get(`http://localhost:8000/api/${taskId}`)
         .then(res => {
             this.setState({
                 task: res.data
             });
             console.log(res.data);
         })
+    }
+
+    handleDelete = (event) => {
+        const taskId = this.props.match.params.taskId;
+        axios.delete(`http://localhost:8000/api/${taskId}`);
+        this.props.history.push('/');
     }
 
     render() {
@@ -35,6 +41,9 @@ class TaskDetail extends React.Component {
                     taskId={this.props.match.params.taskId}
                     buttonName="Update"
                 />
+                <form onSubmit={this.handleDelete}>
+                    <Button type="danger" htmlType="submit">Delete</Button>
+                </form>
             </div>
         )
     }
