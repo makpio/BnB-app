@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
+
 import Tasks from '../components/Task';
+import CustomForm from '../components/Form'
 
 
 const listData = [];
@@ -34,7 +36,16 @@ class TaskList extends React.Component {
 
     render() {
         return (
-            <Tasks data={this.state.tasks}/>
+            <div>
+                <Tasks data={this.state.tasks}/>
+                <br/> 
+                <h2>Create an task</h2>
+                <CustomForm
+                    requestType="post"
+                    articleID={null}
+                    buttonName="Create"
+                />
+            </div>
         )
     }
 }

@@ -1,8 +1,9 @@
 import React from 'react';
 import axios from 'axios';
-import Tasks from '../components/Task';
 import { Card } from 'antd';
 
+import Tasks from '../components/Task';
+import CustomForm from '../components/Form'
 
 class TaskDetail extends React.Component {
 
@@ -23,10 +24,18 @@ class TaskDetail extends React.Component {
 
     render() {
         return (
-            <Card title={this.state.task.name}>
-                <p>{this.state.task.name}</p>
-            </Card>
-                
+            <div>
+                <Card title={this.state.task.name}>
+                    <p>{this.state.task.name}</p>
+                </Card>   
+                <br/> 
+                <h2>Update an task</h2>
+                <CustomForm 
+                    requestType="put"
+                    taskId={this.props.match.params.taskId}
+                    buttonName="Update"
+                />
+            </div>
         )
     }
 }

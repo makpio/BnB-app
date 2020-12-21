@@ -130,3 +130,5 @@ dmypy.json
 
 #js
 node_modules/
+
+*_copy.*
