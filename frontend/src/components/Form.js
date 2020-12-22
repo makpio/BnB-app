@@ -3,7 +3,6 @@ import { Form, Input, Button } from 'antd';
 
 import axios from 'axios';
 
-const FormItem = Form.Item;
 
 class CustomForm extends React.Component {
 
@@ -12,7 +11,7 @@ class CustomForm extends React.Component {
           const name = values.name;
           console.log("Success:", name);
 
-          if (requestType == 'post') {
+          if (requestType === 'post') {
                 axios.post(" http://localhost:8000/api/", {
                     name: name
                 })
@@ -20,7 +19,7 @@ class CustomForm extends React.Component {
                 .catch(err => console.error(err));
                 
             }
-          if (requestType == 'put') {
+          if (requestType === 'put') {
                 axios.put(`http://localhost:8000/api/${taskId}/`, {
                     name: name
                 })
@@ -45,7 +44,7 @@ class CustomForm extends React.Component {
                 this.props.taskId,
                 this.props.buttonName )}
             onFinishFailed={this.onFinishFailed}
-          >
+            >
             <Form.Item label="name" name="name">
               <Input name="name" placeholder="Enter a Title" />
             </Form.Item>

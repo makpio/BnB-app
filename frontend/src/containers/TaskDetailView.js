@@ -2,7 +2,6 @@ import React from 'react';
 import axios from 'axios';
 import { Button, Card } from 'antd';
 
-import Tasks from '../components/Task';
 import CustomForm from '../components/Form'
 
 class TaskDetail extends React.Component {
