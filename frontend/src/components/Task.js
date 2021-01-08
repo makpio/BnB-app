@@ -1,19 +1,19 @@
-import React from 'react';
-import {List, Avatar} from 'antd';
+import React from "react"
+import { List, Avatar } from "antd"
 
-const Tasks = props => {
-    return (
+const Tasks = (props) => {
+  return (
     <List
       itemLayout="vertical"
       size="large"
       pagination={{
-        onChange: page => {
-          console.log(page);
+        onChange: (page) => {
+          console.log(page)
         },
         pageSize: 3,
       }}
       dataSource={props.data}
-      renderItem={item => (
+      renderItem={(item) => (
         <List.Item
           key={item.name}
           extra={
@@ -33,7 +33,7 @@ const Tasks = props => {
         </List.Item>
       )}
     />
-    )
+  )
 }
 
-export default Tasks;
+export default Tasks
