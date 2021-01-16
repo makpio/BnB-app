@@ -1,62 +1,60 @@
 import React from "react"
 import Tree from "react-d3-tree"
+import { Row, Col,  Form, Input, Button, Spin } from "antd"
 
-const myTreeData = [
-  {
-    name: "Top Level",
-    attributes: {
-      keyA: "val A",
-      keyB: "val B",
-      keyC: "val C",
-    },
-    children: [
-      {
-        name: "Level 2: A",
-        attributes: {
-          keyA: "val A",
-          keyB: "val B",
-          keyC: true,
-        },
-      },
-      {
-        name: "Level 2: B",
-      },
-    ],
-  },
-  {
-    name: "Level 2: A",
-    attributes: {
-      keyA: "val A",
-      keyB: "val B",
-      keyC: "val C",
-    },
-    children: [
-      {
-        name: "Level 3: A",
-        attributes: {
-          keyA: "val A",
-          keyB: "val B",
-          keyC: "val C",
-        },
-      },
-      {
-        name: "Level 3: B",
-      },
-    ],
-  },
+import { LoadingOutlined } from "@ant-design/icons"
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
+
+
   
-]
 //initialDepth = "0" set which deepth we need
 class CustomTree extends React.Component {
+
   render() {
-      const {tree} = this.props
-      console.log(tree)
+
     return (
-      <div id="treeWrapper" style={{ width: "100em", height: "40em" }}>
-        <Tree data={tree} orientation="vertical" />
+        
+      <div id="treeWrapper" style={{height: '40em'}}>
+     
+        <Tree 
+          data={this.props.data} 
+          orientation="vertical"
+          //onClick={this.handleNodeClick}
+          onNodeToggle={null}
+          onNodeClick={this.props.onNodeClick}
+          initialDepth = "2"
+          collapsible={false}
+                  
+        /> 
+       
       </div>
     )
   }
 }
-
+// <div id="treeWrapper" style={{ width: "40em", height: "40em"}}>
 export default CustomTree
+//nodeToggleConditions={(node) => node.level <= this.initialDepth}
+// renderCustomNodeElement={(rd3tProps) =>
+//     renderNodeWithCustomEvents({ ...rd3tProps, handleNodeClick })}
+
+// const renderNodeWithCustomEvents = ({
+//     nodeDatum,
+//     toggleNode,
+//     handleNodeClick
+//   }) => (
+//     <g>
+//       <circle r="15" onClick={() => handleNodeClick(nodeDatum)} />
+//       <text fill="black" strokeWidth="1" x="20" onClick={toggleNode}>
+//         {nodeDatum.name} {nodeDatum.attributes.isClosed}{nodeDatum.attributes.keyA}
+//       </text>
+      
+
+//     </g>
+// );
+
+// const handleNodeClick = (nodeDatum) => {
+//     window.alert(
+//       nodeDatum.children ? "Clicked a branch node" : "Clicked a leaf node."
+//     );
+//   };

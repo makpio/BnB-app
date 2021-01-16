@@ -1,30 +1,41 @@
 import React from "react"
-import { Form, Input, Button } from "antd"
+import { Form, Input, Button, Spin, Card, Row, Typography } from "antd"
 
-import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons"
+import { UserOutlined, LockOutlined, MailOutlined, LoadingOutlined } from "@ant-design/icons"
 
 import { connect } from "react-redux"
 import { NavLink } from "react-router-dom"
 import * as actions from "../redux/actions/auth"
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
+const { Title } = Typography;
 
 class RegistrationForm extends React.Component {
+    
   render() {
-    let errorMessage = null
-    if (this.props.error) {
-      errorMessage = <p>{this.props.error.message}</p>
+    if(localStorage.getItem("token") && this.props.error === null) {
+        this.props.history.push("/tasks")
     }
 
+    let errorMessage = null
+    if (this.props.error) {
+      //errorMessage = <p>Login failed: {this.props.error.message}</p>
+      window.confirm('Sign up failed:' + this.props.error.message)
+    }
     return (
-      <div>
-        {errorMessage}
+ 
+      <div> <Row type="flex" justify="center" align="middle" style={{minHeight: '80vh'}}>
+      <Card title={<Title level={2}>Sign Up</Title>} style={{ verticalAlign: 'middle' }} >
+      {this.props.loading ? (
+        <Spin indicator={antIcon} />
+      ) :
 
         <Form
           name="RegisterForm"
-          onFinish={(values, error) => {
-            if (!error) {
-              this.props.onAuth(values.username, values.email, values.password1, values.password2)
+          onFinish={(values, err) => {
+            if (!err) {
+              this.props.onSignup(values.username, values.email, values.password1, values.password2)
             }
-            this.props.history.push("/")
+           
           }}
           scrollToFirstError
         >
@@ -102,16 +113,16 @@ class RegistrationForm extends React.Component {
 
           <Form.Item>
             <Button type="primary" htmlType="submit" style={{ marginRight: "10px" }}>
-              Signup
+              Sign Up
             </Button>
             Or
             <NavLink style={{ marginRight: "10px" }} to="/login/">
               {" "}
-              login
+              Login
             </NavLink>
           </Form.Item>
-        </Form>
-      </div>
+        </Form>}
+      </Card></Row></div> 
     )
   }
 }
@@ -125,7 +136,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAuth: (username, email, password1, password2) =>
+    onSignup: (username, email, password1, password2) =>
       dispatch(actions.authSignup(username, email, password1, password2)),
   }
 }

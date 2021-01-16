@@ -1,5 +1,12 @@
 import axios from "axios"
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
 import * as actionTypes from "./actionsTypes"
+import * as reducers from "../reducers/auth"
+
+const reducer = combineReducers(reducers)
+// applyMiddleware supercharges createStore with middleware:
+const store = createStore(reducer, applyMiddleware(thunk))
 
 export const authStart = () => {
   return {
@@ -22,8 +29,9 @@ export const authFail = (error) => {
 }
 
 export const logout = () => {
-  localStorage.removeItem("user")
+  localStorage.removeItem("username")
   localStorage.removeItem("expirationDate")
+  localStorage.removeItem("token")
   return {
     type: actionTypes.AUTH_LOGOUT,
   }
@@ -39,7 +47,7 @@ export const checkAuthTimeOut = (expirationTime) => {
 
 export const authLogin = (username, password) => {
   return (dispatch) => {
-    dispatch(authStart())
+   dispatch(authStart())
     axios
       .post("http://localhost:8000/rest-auth/login/", {
         username: username,
@@ -47,7 +55,8 @@ export const authLogin = (username, password) => {
       })
       .then((res) => {
         const token = res.data.key
-        const expirationDate = new Date(new Date().getTime() + 3600 * 3)
+        const expirationDate = new Date(new Date().getTime() + 3600 * 3 * 2000)
+        localStorage.setItem("username", username)
         localStorage.setItem("token", token)
         localStorage.setItem("expirationDate", expirationDate)
         dispatch(authSucces(token))
@@ -71,7 +80,8 @@ export const authSignup = (username, email, password1, password2) => {
       })
       .then((res) => {
         const token = res.data.key
-        const expirationDate = new Date(new Date().getTime() + 3600 * 3)
+        const expirationDate = new Date(new Date().getTime() + 3600 * 3 * 2000)
+        localStorage.setItem("username", username)
         localStorage.setItem("token", token)
         localStorage.setItem("expirationDate", expirationDate)
         dispatch(authSucces(token))
@@ -87,14 +97,14 @@ export const authCheckState = () => {
   return (dispatch) => {
     const token = localStorage.getItem("token")
     if (token === undefined) {
-      dispatch(logout())
+        store.dispatch(logout())
     } else {
       const expirationDate = new Date(localStorage.getItem("expirationDate"))
       if (expirationDate <= new Date()) {
-        dispatch(logout())
+        store.dispatch(logout())
       } else {
         dispatch(authSucces(token))
-        dispatch(checkAuthTimeOut((expirationDate.getTime() - new Date().getTime()) / 1000))
+        store.dispatch(checkAuthTimeOut((expirationDate.getTime() - new Date().getTime()) / 1000))
       }
     }
   }

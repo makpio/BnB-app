@@ -1,5 +1,5 @@
 import React from "react"
-import { Form, Input, Button, Spin } from "antd"
+import { Form, Input, Button, Spin, Card, Row, Typography } from "antd"
 import { UserOutlined, LockOutlined, LoadingOutlined } from "@ant-design/icons"
 import { NavLink } from "react-router-dom"
 import { connect } from "react-redux"
@@ -7,16 +7,25 @@ import { connect } from "react-redux"
 import * as actions from "../redux/actions/auth"
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
+const { Title } = Typography;
 
 class LoginForm extends React.Component {
+    
   render() {
+    if(localStorage.getItem("token") && this.props.error === null) {
+        this.props.history.push("/tasks")
+    }
+
     let errorMessage = null
     if (this.props.error) {
-      errorMessage = <p>{this.props.error.message}</p>
+      //errorMessage = <p>Login failed: {this.props.error.message}</p>
+      window.confirm('Login failed:' + this.props.error.message)
     }
+//{errorMessage}
     return (
-      <div>
-        {errorMessage}
+     <Row type="flex" justify="center" align="middle" style={{minHeight: '80vh'}}>
+          <Card title={<Title level={2}>Log In</Title>} style={{ verticalAlign: 'middle' }} >
+        
         {this.props.loading ? (
           <Spin indicator={antIcon} />
         ) : (
@@ -26,7 +35,7 @@ class LoginForm extends React.Component {
               if (!err) {
                 this.props.onAuth(values.userName, values.password)
               }
-              this.props.history.push("/")
+              
             }}
           >
             <Form.Item
@@ -60,7 +69,7 @@ class LoginForm extends React.Component {
 
             <Form.Item>
               <Button type="primary" htmlType="submit" style={{ marginRight: "10px" }}>
-                Log in
+                Log In
               </Button>
               or
               <NavLink style={{ marginLeft: "10px" }} to="/signup/">
@@ -69,7 +78,7 @@ class LoginForm extends React.Component {
             </Form.Item>
           </Form>
         )}
-      </div>
+      </Card></Row>
     )
   }
 }

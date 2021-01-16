@@ -4,38 +4,47 @@ import { Link, withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 import * as actions from "../redux/actions/auth"
 
-const { Header, Content, Footer } = Layout
 
+const { Header, Content, Footer } = Layout
+//
 class CustomLayout extends React.Component {
+
   render() {
     return (
+        //defaultSelectedKeys={["2"]}
       <Layout className="layout">
         <Header>
           <div className="logo" />
-          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>
+          <Menu theme="dark" mode="horizontal" >
+            <Menu.Item key="1">
+              <Link to="/tasks">Tasks List</Link>
+            </Menu.Item>
             {this.props.isAuthenticated ? (
-              <Menu.Item key="2" type="danger" onClick={this.props.logout}>
-                Logout
+            <Menu.Item key="3">
+              <Link to="/tasks/new">Add Task</Link>
+            </Menu.Item>
+           
+            ) :(null)}
+            {this.props.isAuthenticated ? (
+            <Menu.Item key="4">
+              <Link to="/tasks">Edit Tasks</Link>
+            </Menu.Item>
+           
+            ) :(null)}
+          {this.props.isAuthenticated ? (
+              <Menu.Item key="2" type="danger" onClick={() => { if (window.confirm('Are you sure you wish to logout?')) this.props.logout() } } >
+                <Link to="/tasks">Logout</Link>
               </Menu.Item>
             ) : (
               <Menu.Item key="2">
                 <Link to="/login/">Login</Link>
               </Menu.Item>
             )}
-
-            <Menu.Item key="1">
-              <Link to="/">Tasks</Link>
-            </Menu.Item>
-          </Menu>
+            </Menu>
         </Header>
         <Content style={{ padding: "0 50px" }}>
           <Breadcrumb style={{ margin: "16px 0" }}>
-            <Breadcrumb.Item>
-              <Link to="/">Home</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Link to="/">List</Link>
-            </Breadcrumb.Item>
+          
           </Breadcrumb>
           <div style={{ background: "#fff", padding: 24, minHeight: 280 }}>
             {this.props.children}
@@ -46,7 +55,14 @@ class CustomLayout extends React.Component {
     )
   }
 }
-
+/*
+  <Breadcrumb.Item>
+              <Link to="/">Home</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <Link to="/">List</Link>
+            </Breadcrumb.Item>
+*/
 const mapDispatchToProps = (dispatch) => {
   return {
     logout: () => dispatch(actions.logout()),
