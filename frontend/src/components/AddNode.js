@@ -136,7 +136,7 @@ class AddNodeForm extends React.Component {
             onChange={this.onChange}/>
         </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" >
+            <Button  block={true} type="primary" htmlType="submit" >
               Add Node
             </Button>
           </Form.Item>

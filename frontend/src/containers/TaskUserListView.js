@@ -3,15 +3,18 @@ import axios from "axios";
 
 import Tasks from "../components/Task";
 
-class TaskList extends React.Component {
+class TaskUserList extends React.Component {
   state = {
     tasks: [],
   };
 
   componentDidMount() {
     axios.get("http://localhost:8000/api/").then((res) => {
+      const userData = res.data.filter(
+        (task) => task.username === localStorage.username
+      );
       this.setState({
-        tasks: res.data,
+        tasks: userData,
       });
       console.log(res.data);
     });
@@ -22,4 +25,4 @@ class TaskList extends React.Component {
   }
 }
 
-export default TaskList;
+export default TaskUserList;

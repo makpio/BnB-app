@@ -1,23 +1,33 @@
-import React from "react"
-import axios from "axios"
-import { Button, Card, Space } from "antd"
+import React from "react";
 
-import CustomForm from "../components/Form"
+import CustomForm from "../components/Form";
 
 class AddTaskForm extends React.Component {
   state = {
-    task: {},
-  }
+    task: null,
+  };
+
+  emptyTree = [
+    {
+      name: "Top Level",
+      children: [],
+    },
+  ];
 
   render() {
+    const emptyTree = { data: this.emptyTree };
+
     return (
       <div>
-       
-        <CustomForm requestType="post" taskId={null} buttonName="Add" task={this.state.task} />
-       
+        <CustomForm
+          requestType="post"
+          taskId={null}
+          buttonName="Add"
+          task={emptyTree}
+        />
       </div>
-    )
+    );
   }
 }
 
-export default AddTaskForm
+export default AddTaskForm;
