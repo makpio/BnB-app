@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 
-import Tasks from "../components/Task";
+import Tasks from "../components/Tasks";
 
 class TaskUserList extends React.Component {
   state = {

@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 
-import Tasks from "../components/Task";
+import Tasks from "../components/Tasks";
 
 class TaskList extends React.Component {
   state = {
@@ -16,7 +16,7 @@ class TaskList extends React.Component {
       console.log(res.data);
     });
   }
-
+  
   render() {
     return <Tasks data={this.state.tasks} />;
   }

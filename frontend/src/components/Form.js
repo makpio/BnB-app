@@ -30,8 +30,8 @@ class CustomForm extends React.Component {
           data: data,
         })
         .then((res) => console.log(res))
+        .then(() => this.props.history.push("/tasks/user"))
         .catch((err) => console.error(err));
-      this.props.history.push("/tasks/user");
     }
     if (requestType === "put") {
       axios
@@ -42,8 +42,8 @@ class CustomForm extends React.Component {
           data: data,
         })
         .then((res) => console.log(res))
+        .then(() => this.props.history.push("/tasks/user"))
         .catch((err) => console.error(err));
-      this.props.history.push("/tasks/user");
     }
   };
 
@@ -89,6 +89,16 @@ class CustomForm extends React.Component {
   //       data: nextData
   //     });
   //   };
+  constructor(props) {
+    super(props);
+    var handlerUpdateData  = this.handlerUpdateData.bind(this);
+}
+  handlerUpdateData(arg) {
+    //this.setState({
+    //  data: arg
+    //})
+    console.log('it is work', arg)
+  }
 
   render() {
     if (this.state.data !== null) {
@@ -127,9 +137,8 @@ class CustomForm extends React.Component {
                   onFinishFailed={(taskId) =>
                     this.onFinishFailed(this.props.taskId)
                   }
-                  handleDelete={() => this.handleNodeClick(this.props.taskId)}
                   labelCol={{
-                    span: 0,
+                    span: 6,
                   }}
                   layout="horizontal"
                   scrollToFirstError
@@ -138,9 +147,6 @@ class CustomForm extends React.Component {
                     <Form.Item
                       name="username"
                       label="Username"
-                      wrapperCol={{
-                        span: 0,
-                      }}
                     >
                       <Input value="username" readOnly />
                     </Form.Item>
@@ -153,9 +159,6 @@ class CustomForm extends React.Component {
                           message: "Please input task name",
                         },
                       ]}
-                      wrapperCol={{
-                        span: 0,
-                      }}
                     >
                       <Input placeholder="Task name" value="name" />
                     </Form.Item>
@@ -168,9 +171,6 @@ class CustomForm extends React.Component {
                           message: "Please input task description!",
                         },
                       ]}
-                      wrapperCol={{
-                        span: 0,
-                      }}
                     >
                       <Input.TextArea
                         placeholder="Task description"
@@ -225,7 +225,10 @@ class CustomForm extends React.Component {
               <Col span={4} offset={0}>
                 <div>
                   <Card title="Add Node:" bordered={true}>
-                    <AddNodeForm parentId={this.state.parentId} />
+                    <AddNodeForm 
+                      parentId={this.state.parentId}
+                      handlerUpdateData = {this.handlerUpdateData.bind(this)}
+                    />
                   </Card>
                 </div>
               </Col>

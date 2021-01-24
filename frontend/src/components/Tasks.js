@@ -38,7 +38,7 @@ const Tasks = (props) => {
                   title={<a href={`/tasks/${item.id}`}>{item.name}</a>}
                   description={
                     <Typography.Text autosize={{ maxRows: "5" }}>
-                      {item.description}
+                      {item.username}
                     </Typography.Text>
                   }
                 />

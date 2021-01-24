@@ -93,27 +93,13 @@ class TaskDetail extends React.Component {
     });
   }
 
-  handleDelete = (event) => {
-    const taskId = this.props.match.params.taskId;
-    axios.delete(`http://localhost:8000/api/${taskId}`);
-    this.props.history.push("/");
-  };
-
   //<CustomTree tree={this.state.task.data}></CustomTree>
   render() {
-    //let xd = JSON.stringify(this.myTreeData)
-    //let test = Object.values(this.myTreeData)
-    //let test = this.myTreeData
-    //console.log('myTree test', test[0].children[1].children[0])
-    //console.log('local storage', localStorage)
-    //let newNode = {name: "Level3 A", attributes: {level: 3}}
-    //var children = []
-    //test[0].children[1].children.push(children)
     // let NodeGdzieDodajemy = test[0].children[1].children[0]
     // if (!("children" in NodeGdzieDodajemy)) {
     //     NodeGdzieDodajemy['children'] = []
     // }
-    // console.log('a co tu mamy: ', NodeGdzieDodajemy.children.length)
+
     //spr czy istnieje - test dodawania do drzewa
 
     //test[0].children[1].children[1]['children'] = []
@@ -121,15 +107,11 @@ class TaskDetail extends React.Component {
     //NodeGdzieDodajemy.children.push({name: "Level3 B", attributes: {level: 3, keyA: true}})
 
     //NodeGdzieDodajemy.children.push({name: "Level3 C", attributes: {level: 3}})
-    // let xddd = JSON.stringify(test)
-    // console.log('xddd', this.state.data)
-    // console.log('data_string', JSON.stringify(this.state.task.data))
-    // console.log('data_obj', this.state.task.data)
-    // console.log('myTree_obj', this.myTreeData)
-    //  console.log('myTree_string xd', xd)
+    
 
     console.log(this.props.isAuthenticated);
     console.log("xddd", this.state.task.data);
+    console.log("xdd", JSON.stringify(this.state.task.data))
     return (
       <div>
         <Row
@@ -139,11 +121,12 @@ class TaskDetail extends React.Component {
           style={{ minHeight: "80vh" }}
         >
           <Col span={14} style={{ verticalAlign: "middle" }}>
-            {" "}
-            <Card title={<Title level={2}>{this.state.task.name}</Title>}>
-              {this.state.task.data ? (
+            {" "}  {this.state.task.data ? (
+            <Card title={<div> <Row
+                type="flex"  justify="end" align="top"><Title level={5}>{" Author: "}{this.state.task.username}</Title></Row><Title level={2}>{this.state.task.name}</Title>{" ("}{"id:"}{this.props.match.params.taskId}{")"}</div>}>
+               {}
                 <div>
-                  <Card title={this.state.task.username} subtitle="xd">
+                  <Card title>
                     <Typography.Text autosize={{ maxRows: "5" }}>
                       {" "}
                       {this.state.task.description}
@@ -176,10 +159,10 @@ class TaskDetail extends React.Component {
                     </Space>
                   </Row>
                 </div>
-              ) : (
+                </Card> ) : (
                 <Spin indicator={antIcon} />
               )}
-            </Card>
+           
           </Col>
         </Row>
       </div>

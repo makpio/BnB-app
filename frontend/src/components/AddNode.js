@@ -12,10 +12,11 @@ class AddNodeForm extends React.Component {
 
   }
 
-  onFinish = (values, error) => {
    
+  onFinish = (values, error) => {}
 
-  }
+
+  
   /*
   componentDidMount() {
     const taskId = this.props.match.params.taskId;
@@ -36,6 +37,8 @@ class AddNodeForm extends React.Component {
     })
   }
 
+  handlerUpdateData  =   this.props.handlerUpdateData;
+
   render() {
     let errorMessage = null
     if (this.props.error) {
@@ -53,7 +56,7 @@ class AddNodeForm extends React.Component {
           initialValues={{
             parentId: this.props.parentId
           }}
-          onFinish={(values, error) => {
+          onFinish = {(values, error, action) => {
             if (!error) {
               if (this.state.checked === true) {
                   values.isClosed = true
@@ -63,12 +66,13 @@ class AddNodeForm extends React.Component {
               }
               this.onFinish(values.evaluation, values.isClosed, values.nodeId, values.parentId)
               this.newNode = ""
-              //console.log(values)
+              this.handlerUpdateData(values)
+              
             }
             //this.props.history.push("/")
           }}
           labelCol={{
-            span: 0,
+            span: 12,
           }}
           layout="horizontal"  
           scrollToFirstError
@@ -136,8 +140,13 @@ class AddNodeForm extends React.Component {
             onChange={this.onChange}/>
         </Form.Item>
           <Form.Item>
-            <Button  block={true} type="primary" htmlType="submit" >
+            <Button  block={true} type="primary"  htmlType="submit">
               Add Node
+            </Button>
+          </Form.Item>
+          <Form.Item>
+            <Button  block={true} type="primary"  htmlType="submit" >
+              Delete Node
             </Button>
           </Form.Item>
         </Form>

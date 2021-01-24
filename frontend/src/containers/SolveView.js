@@ -1,9 +1,9 @@
 import React from "react";
 import axios from "axios";
 
-import CustomForm from "../components/Form";
+import Solve from "../components/Solve";
 
-class EditTaskForm extends React.Component {
+class SolveForm extends React.Component {
   state = {
     task: {},
   };
@@ -22,10 +22,9 @@ class EditTaskForm extends React.Component {
     if (this.state.task.data === null) return <div>loading</div>;
     return (
       <div>
-        <CustomForm
+        <Solve
           requestType="put"
           taskId={this.props.match.params.taskId}
-          buttonName="Edit"
           task={this.state.task}
         />
       </div>
@@ -33,4 +32,4 @@ class EditTaskForm extends React.Component {
   }
 }
 
-export default EditTaskForm;
+export default SolveForm;
