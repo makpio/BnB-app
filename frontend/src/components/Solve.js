@@ -5,43 +5,101 @@ import AddNodeForm from "./AddNode";
 import { LoadingOutlined } from "@ant-design/icons";
 import { withRouter } from "react-router-dom";
 
-
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 class Solve extends React.Component {
   state = {
-    data:{
+    data:[{
         name: "Top Level",
+        level: 0,
         children: [],
-      }, 
-    level: 0,
-    parentId: null
+        
+      }], 
+    level: 1,
+    parentId: null,
+    task: null
   };
 
-
+  componentWillReceiveProps(nextProps){
+    if (nextProps.task !== this.props.task) {
+        this.setState({ task: nextProps.task })
+      }
+    }
+  
+  
   handleNodeClick = (nodeDatum) => {
-    if (window.confirm("Add child of node named: " + nodeDatum.name)) {
+    if ((nodeDatum.level + 1) !== this.state.level) {
+        (window.confirm("You can modify only nodes on: " + this.state.level + "  level! "))
+    
+    }
+    else if (window.confirm("Add child of node named: " + nodeDatum.name)) {
       this.setState({
         parentId: nodeDatum.name,
       });
+    } else if ((window.confirm("Delete node: " + nodeDatum.name))){
+        this.removeNode(nodeDatum.name)
+        this.setState({
+            parentId: null,
+          });
     } else {
       this.setState({
         parentId: null,
       });
     }
   };
-      addNode(node) {
-      let nextData = this.state.data;
-      //logika dodawania
-      console.log('addingd is working', node)
-      return nextData
-    };
 
-    removeNode(node){
-      let nextData = this.state.data;
-      //logika usuwania
-      console.log('delete it is work', node)
-      return nextData
+
+  search (tree, value, key = 'name', reverse = false) {
+    const stack = [ tree[0] ]
+    while (stack.length) {
+      const node = stack[reverse ? 'pop' : 'shift']()
+      if (node[key] === value) return node
+      node.children && stack.push(...node.children)
+    }
+    return null
+  }
+    
+    addNode(node) {
+    let nextData = JSON.parse(JSON.stringify(this.state.data) )
+    node["children"] = []
+    node["level"] = this.state.level
+    let parent = this.search(nextData, this.state.parentId)
+    if (this.search(nextData, node.name) !== null) {
+        (window.confirm("Node with this name: " + node.name + "  currently exist! "))
+        return nextData;
+    }
+    if (!("children" in parent)) {
+        parent['children'] = []
+    }
+    if (parent['children'].length < 2) {
+        console.log('xddd')
+        parent['children'].push(node)
+    }
+    else  {
+        (window.confirm("Node: " + this.state.parentId + "  cannot has more than 2 children! "))
+    }
+
+    return nextData
+  };
+
+  removeFromTree(parent, childNameToRemove){
+
+    parent.children = parent.children
+        .filter((child) => { return child.name !== childNameToRemove})
+        .map((child) =>{ return this.removeFromTree(child, childNameToRemove)});
+    return parent;
+  }
+
+    removeNode(nodeName) {
+        if (nodeName === "Top Level") {
+            (window.confirm("You cannot delete root node: " + nodeName))
+            return;
+        }
+      let nextData = JSON.parse(JSON.stringify(this.state.data))
+        this.removeFromTree(nextData[0], nodeName)
+      this.setState({
+        data: nextData }
+    );
     };
 
   constructor(props) {
@@ -50,24 +108,19 @@ class Solve extends React.Component {
     }
 
   handlerUpdateData(node) {
-    // const nextData = action === "delete" ? this.removeNode(node) : this.addNode(node)
-    // this.setState({
-    //     data: prevState + 1 }
-    //         );
+    this.setState({
+        data: this.addNode(node) }
+    );
     console.log('it is work', node)
   };
 
   showNextLevel(xd) {
-
+    this.setState({level: this.state.level + 1})
   };
 
-  checkAnswear(data) {
-    //if poprawne level++ 
-    //else windows ze nie
-    // if(){
-    // window.confirm("Wrong Answear! Try again")}
-    // else {
-
+  checkAnswer(data) {
+    if(true) {(window.confirm("Your answer is not correct. Try again!"))}
+    if(false) {this.setState({level: this.state.level + 1})}
     };
   
 
@@ -79,7 +132,7 @@ class Solve extends React.Component {
     console.log("state node", this.state.parentId);
     return (
       <div>
-        {this.state.data !== null ? (
+        {this.props.task.data !== null ? (
           <div className="site-card-wrapper">
             {" "}
             <Row gutter={16}>
@@ -133,9 +186,9 @@ class Solve extends React.Component {
                       size="large"
                       style={{ width: "140px" }}
                       onClick={() => {
-                        if (window.confirm("Confirm deleting:")) {
-                          this.checkAnswear(this.props.taskId);
-                        }
+                        
+                          this.checkAnswer(this.props.taskId)
+                        
                       }}
                     >
                       Check
@@ -149,12 +202,12 @@ class Solve extends React.Component {
                         type="danger"
                         style={{ width: "140px" }}
                         onClick={() => {
-                          if (window.confirm("Confirm showing answear:")) {
+                          if (window.confirm("Confirm showing answer:")) {
                             this.showNextLevel(this.props.taskId);
                           }
                         }}
                       >
-                        Show Answear
+                        Show Answer
                       </Button>
                     </Form.Item>
                   ) : null}

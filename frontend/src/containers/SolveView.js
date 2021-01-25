@@ -26,6 +26,7 @@ class SolveForm extends React.Component {
           requestType="put"
           taskId={this.props.match.params.taskId}
           task={this.state.task}
+          
         />
       </div>
     );

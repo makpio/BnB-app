@@ -29,15 +29,9 @@ class AddNodeForm extends React.Component {
       })
   }
   */
-  onChange = e => {
-    console.log('checked = ', e.target.checked);
-    this.setState({
-      checked: e.target.checked,
-      
-    })
-  }
 
-  handlerUpdateData  =   this.props.handlerUpdateData;
+
+  handlerUpdateData  =  this.props.handlerUpdateData;
 
   render() {
     let errorMessage = null
@@ -56,17 +50,18 @@ class AddNodeForm extends React.Component {
           initialValues={{
             parentId: this.props.parentId
           }}
-          onFinish = {(values, error, action) => {
+          onFinish = {(values, error) => {
             if (!error) {
               if (this.state.checked === true) {
-                  values.isClosed = true
+                  values.isClosed = "true"
               }
               else {
-                values.isClosed = false
+                values.isClosed = "false"
               }
-              this.onFinish(values.evaluation, values.isClosed, values.nodeId, values.parentId)
+              //this.onFinish(values, )
               this.newNode = ""
-              this.handlerUpdateData(values)
+              const node = {name: values.nodeId, attributes: {Value: values.value , Bound: values.bound, Closed: values.isClosed}}
+              this.handlerUpdateData(node)
               
             }
             //this.props.history.push("/")
@@ -109,20 +104,36 @@ class AddNodeForm extends React.Component {
           </Form.Item>
 
           <Form.Item
-            name="evaluation"
-            label="Evaluation"
+            name="value"
+            label="Value"
             rules={[
              
               {
                 required: true,
-                message: "Please input evaluation!",
+                message: "Please input node value!",
               },
             ]}
             wrapperCol={{
                 span: 0,
               }}
           >
-            <Input placeholder="Evaluation" />
+            <Input placeholder="Value" />
+          </Form.Item>
+          <Form.Item
+            name="bound"
+            label="Bound"
+            rules={[
+             
+              {
+                required: true,
+                message: "Please input Bound!",
+              },
+            ]}
+            wrapperCol={{
+                span: 0,
+              }}
+          >
+            <Input placeholder="Bound" />
           </Form.Item>
           <Form.Item 
           name="isClosed" 
@@ -137,18 +148,15 @@ class AddNodeForm extends React.Component {
           >
          <Checkbox checked={this.state.checked}
             disabled={this.state.disabled}
-            onChange={this.onChange}/>
+            onChange={(e) => {this.setState({checked: e.target.checked })}}
+          />
         </Form.Item>
           <Form.Item>
-            <Button  block={true} type="primary"  htmlType="submit">
+            <Button  block={true} type="primary"  htmlType="submit" >
               Add Node
             </Button>
           </Form.Item>
-          <Form.Item>
-            <Button  block={true} type="primary"  htmlType="submit" >
-              Delete Node
-            </Button>
-          </Form.Item>
+         
         </Form>
       </div>
     )

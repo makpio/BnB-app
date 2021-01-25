@@ -14,9 +14,91 @@ class CustomForm extends React.Component {
     data: null,
     parentId: null,
   };
+  
+
+  componentWillReceiveProps(nextProps){
+    if (nextProps.task !== this.props.task) {
+        console.log('mam cie')
+      this.setState({ data: nextProps.task.data })
+    }
+  }
+ 
+  handleNodeClick = (nodeDatum) => {
+    if (window.confirm("Add child of node named: " + nodeDatum.name)) {
+      this.setState({
+        parentId: nodeDatum.name,
+      });
+    } else if ((window.confirm("Delete node: " + nodeDatum.name))){
+        this.removeNode(nodeDatum.name)
+        this.setState({
+            parentId: null,
+          });
+    } else {
+      this.setState({
+        parentId: null,
+      });
+    }
+  };
+
+
+  search (tree, value, key = 'name', reverse = false) {
+    const stack = [ tree[0] ]
+    while (stack.length) {
+      const node = stack[reverse ? 'pop' : 'shift']()
+      if (node[key] === value) return node
+      node.children && stack.push(...node.children)
+    }
+    return null
+  }
+    
+    addNode(node) {
+    let nextData = JSON.parse(JSON.stringify(this.state.data) )
+    console.log('co co to', nextData)
+    node["children"] = []
+    node["level"] = this.state.level
+    let parent = this.search(nextData, this.state.parentId)
+    if (this.search(nextData, node.name) !== null) {
+        (window.confirm("Node with this name: " + node.name + "  currently exist! "))
+        return nextData;
+    }
+    if (!("children" in parent)) {
+        parent['children'] = []
+    }
+    if (parent['children'].length < 2) {
+        parent['children'].push(node)
+    }
+    else  {
+        (window.confirm("Node: " + this.state.parentId + "  cannot has more than 2 children! "))
+    }
+
+    return nextData
+  };
+
+  removeFromTree(parent, childNameToRemove){
+
+    parent.children = parent.children
+        .filter((child) => { return child.name !== childNameToRemove})
+        .map((child) =>{ return this.removeFromTree(child, childNameToRemove)});
+    return parent;
+  }
+
+    removeNode(nodeName) {
+        if (nodeName === "Top Level") {
+            (window.confirm("You cannot delete root node: " + nodeName))
+            return;
+        }
+      let nextData = JSON.parse(JSON.stringify(this.state.data))
+        this.removeFromTree(nextData[0], nodeName)
+      this.setState({
+        data: nextData }
+    );
+    };
+
+
+
   onFinish = (values, requestType, taskId, buttonName) => {
     const name = values.name;
-    const data = values.data;
+    const data = this.state.data;
     const username = values.username;
     const description = values.description;
     console.log("Success:", name, data, username, description);
@@ -56,60 +138,24 @@ class CustomForm extends React.Component {
     this.props.history.push("/tasks/user");
   };
 
-  handleNodeClick = (nodeDatum) => {
-    if (window.confirm("Add child of node named: " + nodeDatum.name)) {
-      this.setState({
-        parentId: nodeDatum.name,
-      });
-    } else {
-      this.setState({
-        parentId: null,
-      });
-    }
-  };
-  //     addChildNode = () => {
-  //     const nextData = clone(this.state.data);
-  //     const target = nextData.children;
-  //     this.injectedNodesCount++;
-  //     target.push({
-  //       name: `Inserted Node ${this.injectedNodesCount}`,
-  //       id: `inserted-node-${this.injectedNodesCount}`
-  //     });
-  //     this.setState({
-  //       data: nextData
-  //     });
-  //   };
-
-  //   removeChildNode = () => {
-  //     const nextData = clone(this.state.data);
-  //     const target = nextData.children;
-  //     target.pop();
-  //     this.injectedNodesCount--;
-  //     this.setState({
-  //       data: nextData
-  //     });
-  //   };
   constructor(props) {
     super(props);
     var handlerUpdateData  = this.handlerUpdateData.bind(this);
 }
-  handlerUpdateData(arg) {
-    //this.setState({
-    //  data: arg
-    //})
-    console.log('it is work', arg)
-  }
+handlerUpdateData(node) {
+    console.log('tu jestem', node)
+    this.setState({
+        data: this.addNode(node) }
+    );
+    console.log('it is work', this.state.data)
+  };
 
   render() {
-    if (this.state.data !== null) {
-      this.props.task.data = this.state.data;
-    }
-
-    //{this.props.data = this.props.task.data}
-    console.log("state node", this.state.parentId);
+      
+    console.log("state node", this.state.data);
     return (
       <div>
-        {this.props.task.data ? (
+         {this.state.data !== null ?  (
           <div className="site-card-wrapper">
             {" "}
             <Row gutter={16}>
@@ -130,7 +176,7 @@ class CustomForm extends React.Component {
                       this.props.admin,
                       this.props.username,
                       this.props.description,
-                      this.props.data,
+                      this.state.data,
                       this.props.buttonName
                     )
                   }
@@ -217,7 +263,7 @@ class CustomForm extends React.Component {
                 <Card title="Task Tree:" bordered>
                   {" "}
                   <CustomTree
-                    data={this.props.task.data}
+                    data={this.state.data}
                     onNodeClick={this.handleNodeClick}
                   ></CustomTree>
                 </Card>{" "}

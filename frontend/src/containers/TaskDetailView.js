@@ -169,5 +169,4 @@ class TaskDetail extends React.Component {
     );
   }
 }
-//{this.state.task.username === localStorage.username || localStorage.username === "admin" ? ( ) : (null)}
 export default TaskDetail;

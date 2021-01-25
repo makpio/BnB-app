@@ -10,9 +10,9 @@ class CustomTree extends React.Component {
         type="flex"
         justify="center"
         align="middle"
-        style={{ height: "20em" }}
+        style={{ height: "30em" }}
       >
-     
+
         <Tree
           data={this.props.data}
           orientation="vertical"
@@ -21,7 +21,7 @@ class CustomTree extends React.Component {
           onNodeClick={this.props.onNodeClick}
           collapsible={false}
           initialDepth ={this.props.initialDepth}
-        />
+        /> 
      </Row>
     );
   }
