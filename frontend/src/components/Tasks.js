@@ -19,7 +19,7 @@ const Tasks = (props) => {
               onChange: (page) => {
                 console.log(page);
               },
-              pageSize: 10,
+              pageSize: 5,
             }}
             dataSource={props.data}
             renderItem={(item) => (

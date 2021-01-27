@@ -19,7 +19,8 @@ class SolveForm extends React.Component {
   }
 
   render() {
-    if (this.state.task.data === null) return <div>loading</div>;
+    if (this.state.task.data === null) {return <div>loading</div>}
+    else {
     return (
       <div>
         <Solve
@@ -29,7 +30,7 @@ class SolveForm extends React.Component {
           
         />
       </div>
-    );
+    );}
   }
 }
 

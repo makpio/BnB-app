@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Col, Form, Input, Button, Spin, Card } from "antd";
 import CustomTree from "./Tree";
+
 import AddNodeForm from "./AddNode";
 import { LoadingOutlined } from "@ant-design/icons";
 import { withRouter } from "react-router-dom";
@@ -20,27 +21,28 @@ class Solve extends React.Component {
     task: null
   };
 
-  componentWillReceiveProps(nextProps){
-    if (nextProps.task !== this.props.task) {
-        this.setState({ task: nextProps.task })
-      }
-    }
-  
   
   handleNodeClick = (nodeDatum) => {
-    if ((nodeDatum.level + 1) !== this.state.level) {
-        (window.confirm("You can modify only nodes on: " + this.state.level + "  level! "))
     
-    }
-    else if (window.confirm("Add child of node named: " + nodeDatum.name)) {
+    if (window.confirm("Add child of node named: " + nodeDatum.name)) {
+        if ((nodeDatum.level + 1) !== this.state.level) {
+            (window.confirm("You can modify only nodes on: " + this.state.level + "  level! "))
+        
+        } else {
       this.setState({
         parentId: nodeDatum.name,
-      });
+      });}
     } else if ((window.confirm("Delete node: " + nodeDatum.name))){
+        if ((nodeDatum.level) !== this.state.level) {
+            (window.confirm("You can modify only nodes on: " + this.state.level + "  level! "))
+        
+        }
+        
+        else {
         this.removeNode(nodeDatum.name)
         this.setState({
             parentId: null,
-          });
+          });}
     } else {
       this.setState({
         parentId: null,
@@ -139,6 +141,7 @@ class Solve extends React.Component {
               <Col span={7}>
                 {" "}
                 <Form
+                  key = {this.props.task.description}
                   name="CustomForm"
                   initialValues={{
                     username: localStorage.username,

@@ -10,6 +10,7 @@ import EditTaskForm from "./containers/EditTaskView";
 import TaskDetail from "./containers/TaskDetailView";
 import TaskUserList from "./containers/UserTasksListView";
 import SolveForm from "./containers/SolveView"
+import Solve from "./components/Solve"
 
 const BaseRouter = () => (
   <div>

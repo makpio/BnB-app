@@ -101,6 +101,7 @@ class CustomForm extends React.Component {
     const data = this.state.data;
     const username = values.username;
     const description = values.description;
+    const solution = values.solution
     console.log("Success:", name, data, username, description);
 
     if (requestType === "post") {
@@ -110,6 +111,7 @@ class CustomForm extends React.Component {
           description: description,
           username: username,
           data: data,
+          solution: solution,
         })
         .then((res) => console.log(res))
         .then(() => this.props.history.push("/tasks/user"))
@@ -122,6 +124,7 @@ class CustomForm extends React.Component {
           description: description,
           username: username,
           data: data,
+          solution: solution,
         })
         .then((res) => console.log(res))
         .then(() => this.props.history.push("/tasks/user"))
@@ -177,7 +180,8 @@ handlerUpdateData(node) {
                       this.props.username,
                       this.props.description,
                       this.state.data,
-                      this.props.buttonName
+                      this.props.buttonName,
+                      this.props.solution
                     )
                   }
                   onFinishFailed={(taskId) =>
@@ -213,7 +217,7 @@ handlerUpdateData(node) {
                       label="Description"
                       rules={[
                         {
-                          //required: true,
+                          required: true,
                           message: "Please input task description!",
                         },
                       ]}
@@ -223,6 +227,18 @@ handlerUpdateData(node) {
                         value="description"
                         autosize={{ minRows: 8, maxRows: 20 }}
                       />
+                    </Form.Item>
+                    <Form.Item
+                      name="solution"
+                      label="Solution"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input task solution",
+                        },
+                      ]}
+                    >
+                      <Input placeholder="Task solution" value="solution" />
                     </Form.Item>{" "}
                   </Card>
 
