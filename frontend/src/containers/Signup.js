@@ -20,9 +20,7 @@ class RegistrationForm extends React.Component {
       this.props.history.push("/tasks");
     }
 
-    // let errorMessage = null;
     if (this.props.error) {
-      //errorMessage = <p>Login failed: {this.props.error.message}</p>
       window.confirm("Sign up failed:" + this.props.error.message);
     }
     return (

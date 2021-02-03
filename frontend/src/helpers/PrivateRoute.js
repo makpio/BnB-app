@@ -5,7 +5,6 @@ function PrivateRoute({ component: Component, authed, ...rest }) {
   return (
     <Route
       {...rest}
-      //render={(props) => authed === true
       render={(props) =>
         localStorage.getItem("token") ? (
           <Component {...props} />

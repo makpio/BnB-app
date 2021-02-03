@@ -1,11 +1,9 @@
 import React from "react";
-import { Row, Col, Form, Input, Button, Spin, Card } from "antd";
+import { Row, Col, Form, Input, Spin, Card } from "antd";
 import CustomTree from "./Tree";
-import AddNodeForm from "./AddNode";
+
 import { LoadingOutlined } from "@ant-design/icons";
 import { withRouter } from "react-router-dom";
-
-import axios from "axios";
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -14,23 +12,19 @@ class ShowTask extends React.Component {
     data: null,
     parentId: null,
   };
-  
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     if (nextProps.task !== this.props.task) {
-        console.log('mam cie')
-      this.setState({ data: nextProps.task.data })
+      console.log("mam cie");
+      this.setState({ data: nextProps.task.data });
     }
   }
- 
- 
 
   render() {
-      
     console.log("state node", this.state.data);
     return (
       <div>
-         {this.state.data !== null ?  (
+        {this.state.data !== null ? (
           <div className="site-card-wrapper">
             {" "}
             <Row gutter={16}>
@@ -42,20 +36,16 @@ class ShowTask extends React.Component {
                     username: this.props.task.username,
                     description: this.props.task.description,
                     name: this.props.task.name,
-                    solution: this.props.task.solution
+                    solution: this.props.task.solution,
                   }}
-                  
                   labelCol={{
                     span: 6,
                   }}
                   layout="horizontal"
                   scrollToFirstError
                 >
-                   <Card title="Task informations:" bordered={true}>
-                    <Form.Item
-                      name="username"
-                      label="Username"
-                    >
+                  <Card title="Task informations:" bordered={true}>
+                    <Form.Item name="username" label="Username">
                       <Input value="username" readOnly />
                     </Form.Item>
                     <Form.Item
@@ -68,7 +58,7 @@ class ShowTask extends React.Component {
                         },
                       ]}
                     >
-                      <Input placeholder="Task name" value="name" readOnly/>
+                      <Input placeholder="Task name" value="name" readOnly />
                     </Form.Item>
                     <Form.Item
                       name="description"
@@ -97,14 +87,16 @@ class ShowTask extends React.Component {
                         },
                       ]}
                     >
-                      <Input placeholder="Task solution" value="solution" readOnly/>
+                      <Input
+                        placeholder="Task solution"
+                        value="solution"
+                        readOnly
+                      />
                     </Form.Item>{" "}
                   </Card>
 
                   <Form.Item></Form.Item>
                   <Form.Item></Form.Item>
-
-                 
                 </Form>
               </Col>
               <Col span={17} label="Task">

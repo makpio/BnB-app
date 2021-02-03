@@ -5,7 +5,7 @@ import * as actionTypes from "./actionsTypes"
 import * as reducers from "../reducers/auth"
 
 const reducer = combineReducers(reducers)
-// applyMiddleware supercharges createStore with middleware:
+
 const store = createStore(reducer, applyMiddleware(thunk))
 
 export const authStart = () => {

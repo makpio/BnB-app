@@ -14,25 +14,24 @@ class CustomForm extends React.Component {
     data: null,
     parentId: null,
   };
-  
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     if (nextProps.task !== this.props.task) {
-        console.log('mam cie')
-      this.setState({ data: nextProps.task.data })
+      console.log("mam cie");
+      this.setState({ data: nextProps.task.data });
     }
   }
- 
+
   handleNodeClick = (nodeDatum) => {
     if (window.confirm("Add child of node named: " + nodeDatum.name)) {
       this.setState({
         parentId: nodeDatum.name,
       });
-    } else if ((window.confirm("Delete node: " + nodeDatum.name))){
-        this.removeNode(nodeDatum.name)
-        this.setState({
-            parentId: null,
-          });
+    } else if (window.confirm("Delete node: " + nodeDatum.name)) {
+      this.removeNode(nodeDatum.name);
+      this.setState({
+        parentId: null,
+      });
     } else {
       this.setState({
         parentId: null,
@@ -40,69 +39,72 @@ class CustomForm extends React.Component {
     }
   };
 
-
-  search (tree, value, key = 'name', reverse = false) {
-    const stack = [ tree[0] ]
+  search(tree, value, key = "name", reverse = false) {
+    const stack = [tree[0]];
     while (stack.length) {
-      const node = stack[reverse ? 'pop' : 'shift']()
-      if (node[key] === value) return node
-      node.children && stack.push(...node.children)
+      const node = stack[reverse ? "pop" : "shift"]();
+      if (node[key] === value) return node;
+      node.children && stack.push(...node.children);
     }
-    return null
+    return null;
   }
-    
-    addNode(node) {
-    let nextData = JSON.parse(JSON.stringify(this.state.data) )
-    console.log('co co to', nextData)
-    node["children"] = []
-    node["level"] = this.state.parentId + 1
-    node["parent"] = this.state.parentId
-    let parent = this.search(nextData, this.state.parentId)
+
+  addNode(node) {
+    let nextData = JSON.parse(JSON.stringify(this.state.data));
+    console.log("co co to", nextData);
+    node["children"] = [];
+    node["level"] = this.state.parentId + 1;
+    node["parent"] = this.state.parentId;
+    let parent = this.search(nextData, this.state.parentId);
     if (this.search(nextData, node.name) !== null) {
-        (window.confirm("Node with this name: " + node.name + "  currently exist! "))
-        return nextData;
+      window.confirm(
+        "Node with this name: " + node.name + "  currently exist! "
+      );
+      return nextData;
     }
     if (!("children" in parent)) {
-        parent['children'] = []
+      parent["children"] = [];
     }
-    if (parent['children'].length < 2) {
-        parent['children'].push(node)
-    }
-    else  {
-        (window.confirm("Node: " + this.state.parentId + "  cannot has more than 2 children! "))
+    if (parent["children"].length < 2) {
+      parent["children"].push(node);
+    } else {
+      window.confirm(
+        "Node: " + this.state.parentId + "  cannot has more than 2 children! "
+      );
     }
 
-    return nextData
-  };
+    return nextData;
+  }
 
-  removeFromTree(parent, childNameToRemove){
-
+  removeFromTree(parent, childNameToRemove) {
     parent.children = parent.children
-        .filter((child) => { return child.name !== childNameToRemove})
-        .map((child) =>{ return this.removeFromTree(child, childNameToRemove)});
+      .filter((child) => {
+        return child.name !== childNameToRemove;
+      })
+      .map((child) => {
+        return this.removeFromTree(child, childNameToRemove);
+      });
     return parent;
   }
 
-    removeNode(nodeName) {
-        if (nodeName === "Top Level") {
-            (window.confirm("You cannot delete root node: " + nodeName))
-            return;
-        }
-      let nextData = JSON.parse(JSON.stringify(this.state.data))
-        this.removeFromTree(nextData[0], nodeName)
-      this.setState({
-        data: nextData }
-    );
-    };
-
-
+  removeNode(nodeName) {
+    if (nodeName === "Top Level") {
+      window.confirm("You cannot delete root node: " + nodeName);
+      return;
+    }
+    let nextData = JSON.parse(JSON.stringify(this.state.data));
+    this.removeFromTree(nextData[0], nodeName);
+    this.setState({
+      data: nextData,
+    });
+  }
 
   onFinish = (values, requestType, taskId, buttonName) => {
     const name = values.name;
     const data = this.state.data;
     const username = values.username;
     const description = values.description;
-    const solution = values.solution
+    const solution = values.solution;
     console.log("Success:", name, data, username, description);
 
     if (requestType === "post") {
@@ -144,22 +146,21 @@ class CustomForm extends React.Component {
 
   constructor(props) {
     super(props);
-    var handlerUpdateData  = this.handlerUpdateData.bind(this);
-}
-handlerUpdateData(node) {
-    console.log('tu jestem', node)
+    var handlerUpdateData = this.handlerUpdateData.bind(this);
+  }
+  handlerUpdateData(node) {
+    console.log("tu jestem", node);
     this.setState({
-        data: this.addNode(node) }
-    );
-    console.log('it is work', this.state.data)
-  };
+      data: this.addNode(node),
+    });
+    console.log("it is work", this.state.data);
+  }
 
   render() {
-      
     console.log("state node", this.state.data);
     return (
       <div>
-         {this.state.data !== null ?  (
+        {this.state.data !== null ? (
           <div className="site-card-wrapper">
             {" "}
             <Row gutter={16}>
@@ -171,7 +172,7 @@ handlerUpdateData(node) {
                     username: localStorage.username,
                     description: this.props.task.description,
                     name: this.props.task.name,
-                    solution: this.props.task.solution
+                    solution: this.props.task.solution,
                   }}
                   onFinish={(values) =>
                     this.onFinish(
@@ -196,10 +197,7 @@ handlerUpdateData(node) {
                   scrollToFirstError
                 >
                   <Card title="Edit task form:" bordered={true}>
-                    <Form.Item
-                      name="username"
-                      label="Username"
-                    >
+                    <Form.Item name="username" label="Username">
                       <Input value="username" readOnly />
                     </Form.Item>
                     <Form.Item
@@ -289,9 +287,9 @@ handlerUpdateData(node) {
               <Col span={5} offset={0}>
                 <div>
                   <Card title="Add Node:" bordered={true}>
-                    <AddNodeForm 
+                    <AddNodeForm
                       parentId={this.state.parentId}
-                      handlerUpdateData = {this.handlerUpdateData.bind(this)}
+                      handlerUpdateData={this.handlerUpdateData.bind(this)}
                     />
                   </Card>
                 </div>

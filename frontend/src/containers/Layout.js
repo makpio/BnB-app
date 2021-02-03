@@ -5,11 +5,10 @@ import { connect } from "react-redux";
 import * as actions from "../redux/actions/auth";
 
 const { Header, Content, Footer } = Layout;
-//
+
 class CustomLayout extends React.Component {
   render() {
     return (
-      //defaultSelectedKeys={["2"]}
       <Layout className="layout">
         <Header>
           <div className="logo" />
@@ -58,14 +57,7 @@ class CustomLayout extends React.Component {
     );
   }
 }
-/*
-  <Breadcrumb.Item>
-              <Link to="/">Home</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Link to="/">List</Link>
-            </Breadcrumb.Item>
-*/
+
 const mapDispatchToProps = (dispatch) => {
   return {
     logout: () => dispatch(actions.logout()),

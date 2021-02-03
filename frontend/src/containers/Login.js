@@ -15,12 +15,10 @@ class LoginForm extends React.Component {
       this.props.history.push("/tasks");
     }
 
-    // let errorMessage = null;
     if (this.props.error) {
-      //errorMessage = <p>Login failed: {this.props.error.message}</p>
       window.confirm("Login failed:" + this.props.error.message);
     }
-    //{errorMessage}
+
     return (
       <Row
         type="flex"
@@ -107,5 +105,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-//LoginForm = Form.onFieldsChange(LoginForm);
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

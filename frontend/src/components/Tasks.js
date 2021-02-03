@@ -23,16 +23,7 @@ const Tasks = (props) => {
             }}
             dataSource={props.data}
             renderItem={(item) => (
-              <List.Item
-                key={item.name}
-                //   extra={
-                //     <img
-                //       width={272}
-                //       alt="logo"
-                //       src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                //     />
-                //   }
-              >
+              <List.Item key={item.name}>
                 <List.Item.Meta
                   avatar={<Avatar src={item.avatar} />}
                   title={<a href={`/tasks/${item.id}`}>{item.name}</a>}

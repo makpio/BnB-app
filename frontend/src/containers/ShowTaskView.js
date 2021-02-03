@@ -1,7 +1,10 @@
 import React from "react";
 import axios from "axios";
-
+import { LoadingOutlined } from "@ant-design/icons";
+import { Spin } from "antd";
 import ShowTask from "../components/ShowTask";
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 class ShowTaskForm extends React.Component {
   state = {
@@ -19,7 +22,12 @@ class ShowTaskForm extends React.Component {
   }
 
   render() {
-    if (this.state.task.data === null) return <div>loading</div>;
+    if (this.state.task.data === null)
+      return (
+        <div>
+          <Spin indicator={antIcon} />
+        </div>
+      );
     return (
       <div>
         <ShowTask
