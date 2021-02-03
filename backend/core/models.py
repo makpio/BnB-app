@@ -7,7 +7,7 @@ class Task(models.Model):
     username = models.CharField(max_length=120, default = "admin")
     description = models.TextField(max_length=500, default="123")
     data = models.JSONField(null=True, default=dict)
-    solution = models.FloatField(default=123)
+    solution = models.TextField(max_length=500, default="123")
 
 
     def __str__(self):

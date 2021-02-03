@@ -141,9 +141,9 @@ class TaskDetail extends React.Component {
                         size="large"
                         type="primary"
                         htmlType="submit"
-                        href={`/tasks/${this.state.task.id}/solve`}
+                        href={`/tasks/${this.state.task.id}/show`}
                       >
-                        Solve
+                        Show Solution
                       </Button>
                       {this.state.task.username === localStorage.username ? (
                         <Button

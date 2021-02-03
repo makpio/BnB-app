@@ -11,6 +11,8 @@ class AddTaskForm extends React.Component {
     {
       name: "Top Level",
       children: [],
+      level: 0,
+      parent: null,
     },
   ];
 

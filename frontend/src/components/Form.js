@@ -55,7 +55,8 @@ class CustomForm extends React.Component {
     let nextData = JSON.parse(JSON.stringify(this.state.data) )
     console.log('co co to', nextData)
     node["children"] = []
-    node["level"] = this.state.level
+    node["level"] = this.state.parentId + 1
+    node["parent"] = this.state.parentId
     let parent = this.search(nextData, this.state.parentId)
     if (this.search(nextData, node.name) !== null) {
         (window.confirm("Node with this name: " + node.name + "  currently exist! "))
@@ -170,6 +171,7 @@ handlerUpdateData(node) {
                     username: localStorage.username,
                     description: this.props.task.description,
                     name: this.props.task.name,
+                    solution: this.props.task.solution
                   }}
                   onFinish={(values) =>
                     this.onFinish(
@@ -275,7 +277,7 @@ handlerUpdateData(node) {
                   ) : null}
                 </Form>
               </Col>
-              <Col span={13} label="Task">
+              <Col span={12} label="Task">
                 <Card title="Task Tree:" bordered>
                   {" "}
                   <CustomTree
@@ -284,7 +286,7 @@ handlerUpdateData(node) {
                   ></CustomTree>
                 </Card>{" "}
               </Col>
-              <Col span={4} offset={0}>
+              <Col span={5} offset={0}>
                 <div>
                   <Card title="Add Node:" bordered={true}>
                     <AddNodeForm 

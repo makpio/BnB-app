@@ -21,6 +21,7 @@ class CustomTree extends React.Component {
           onNodeClick={this.props.onNodeClick}
           collapsible={false}
           initialDepth ={this.props.initialDepth}
+        
         /> 
      </Row>
     );

@@ -1,9 +1,9 @@
 import React from "react";
 import axios from "axios";
 
-import Solve from "../components/Solve";
+import ShowTask from "../components/ShowTask";
 
-class SolveForm extends React.Component {
+class ShowTaskForm extends React.Component {
   state = {
     task: {},
   };
@@ -19,19 +19,16 @@ class SolveForm extends React.Component {
   }
 
   render() {
-    if (this.state.task.data === null) {return <div>loading</div>}
-    else {
+    if (this.state.task.data === null) return <div>loading</div>;
     return (
       <div>
-        <Solve
-          requestType="put"
+        <ShowTask
           taskId={this.props.match.params.taskId}
           task={this.state.task}
-          
         />
       </div>
-    );}
+    );
   }
 }
 
-export default SolveForm;
+export default ShowTaskForm;

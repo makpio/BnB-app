@@ -1,21 +1,17 @@
 import React from "react"
 
-import { Form, Input, Button, Checkbox } from "antd"
+import { Form, Input, Button, Checkbox, Select} from "antd"
 
 //import { UserOutlined, LockOutlined, MailOutlined, CloseOutlined, CheckOutlined } from "@ant-design/icons"
+
+const { Option } = Select;
 
 
 class AddNodeForm extends React.Component {
 
-  state = {
-    newNode: ""
-
-  }
 
    
   onFinish = (values, error) => {}
-
-
   
   /*
   componentDidMount() {
@@ -52,22 +48,23 @@ class AddNodeForm extends React.Component {
           }}
           onFinish = {(values, error) => {
             if (!error) {
-              if (this.state.checked === true) {
-                  values.isClosed = "true"
+
+              let node = {name: values.nodeId, attributes: { Evaluation: values.evaluation, "Decision Vars": values.value }}
+              
+              if (values.note !== undefined || values.note === "" ) {
+                node.attributes['Note'] = values.note
               }
-              else {
-                values.isClosed = "false"
+              if (values.closed !== undefined || values.closed === "none" ) {
+                  node.attributes['Closed'] = values.closed
+                  console.log('Xd', values.closed)
               }
-              //this.onFinish(values, )
-              this.newNode = ""
-              const node = {name: values.nodeId, attributes: {Value: values.value , Bound: values.bound, Closed: values.isClosed}}
               this.handlerUpdateData(node)
               
             }
             //this.props.history.push("/")
           }}
           labelCol={{
-            span: 12,
+            span: 11,
           }}
           layout="horizontal"  
           scrollToFirstError
@@ -105,52 +102,66 @@ class AddNodeForm extends React.Component {
 
           <Form.Item
             name="value"
-            label="Value"
+            label="Decision Vars"
             rules={[
              
               {
                 required: true,
-                message: "Please input node value!",
+                message: "Please input decision variables values!",
               },
             ]}
             wrapperCol={{
                 span: 0,
               }}
           >
-            <Input placeholder="Value" />
+            <Input placeholder="Decision variables" />
           </Form.Item>
           <Form.Item
-            name="bound"
-            label="Bound"
+            name="evaluation"
+            label="Evaluation"
             rules={[
              
               {
                 required: true,
-                message: "Please input Bound!",
+                message: "Please input evaluation value!",
               },
             ]}
             wrapperCol={{
                 span: 0,
               }}
           >
-            <Input placeholder="Bound" />
+            <Input placeholder="Evaluation" />
           </Form.Item>
-          <Form.Item 
-          name="isClosed" 
-          label="Is Closed?"
-          rules={[
-             
-            {
-              //required: true,
-              message: "Please decide if closed is noded!",
-            },
-          ]}
+          <Form.Item
+            name="note"
+            label="Note"
+            
+            wrapperCol={{
+                span: 0,
+              }}
           >
-         <Checkbox checked={this.state.checked}
-            disabled={this.state.disabled}
-            onChange={(e) => {this.setState({checked: e.target.checked })}}
-          />
-        </Form.Item>
+            <Input placeholder="Note" />
+          </Form.Item>
+          <Form.Item
+           name="closed"
+           label="Closed">
+          <Select
+    showSearch
+   
+    placeholder="Select a reason"
+    optionFilterProp="reason"
+    filterOption={(input, option) =>
+      option.reason.indexOf(input) >= 0
+    }
+    defaultValue = "none"
+  >
+    <Option value="none">None</Option>
+    <Option value="bound">Bound</Option>
+    <Option value="inegrity">Integrality</Option>
+    <Option value=" infeasibility "> Infeasibility </Option>
+  </Select>
+          </Form.Item>
+          
           <Form.Item>
             <Button  block={true} type="primary"  htmlType="submit" >
               Add Node
@@ -158,6 +169,29 @@ class AddNodeForm extends React.Component {
           </Form.Item>
          
         </Form>
+        <Form  labelCol={{
+            span: 17}}> <Form.Item
+                      name="currentBestSol"
+                      label="Current Best Solution"
+                     
+                    >
+                      <Input
+                        placeholder="Current Best Sol."
+                        value="currentBestSol"
+                        
+                      />
+                    </Form.Item>
+                     <Form.Item
+                      name="currentBestVar"
+                      label="Current Best Variables"
+                     
+                    >
+                      <Input
+                        placeholder="Current Best Var."
+                        value="currentBestVar"
+                        
+                      />
+                    </Form.Item></Form>
       </div>
     )
   }

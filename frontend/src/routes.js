@@ -9,8 +9,8 @@ import AddTaskForm from "./containers/AddTaskView";
 import EditTaskForm from "./containers/EditTaskView";
 import TaskDetail from "./containers/TaskDetailView";
 import TaskUserList from "./containers/UserTasksListView";
-import SolveForm from "./containers/SolveView"
-import Solve from "./components/Solve"
+import ShowTaskForm from "./containers/ShowTaskView";
+
 
 const BaseRouter = () => (
   <div>
@@ -23,9 +23,8 @@ const BaseRouter = () => (
       <Route exact path="/tasks/:taskId" component={TaskDetail} />
     </Switch>
     <PrivateRoute exact path="/tasks/:taskId/edit" component={EditTaskForm} />
-    <PrivateRoute exact path="/tasks/:taskId/solve" component={SolveForm} />
+    <Route exact path="/tasks/:taskId/show" component={ShowTaskForm} />
 
-    {/* <Route exact path="/tasks/:taskId/solve" component={AddNodeForm} /> */}
   </div>
 );
 
