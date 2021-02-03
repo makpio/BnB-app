@@ -22,7 +22,7 @@ class EditTaskForm extends React.Component {
   }
 
   render() {
-    if (this.state.task.data === null) return <div><Spin indicator={antIcon} /></div>;
+    if (this.state.task.data === undefined) return <div><Spin indicator={antIcon} /></div>;
     return (
       <div>
         <CustomForm

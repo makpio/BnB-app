@@ -14,10 +14,21 @@ class CustomForm extends React.Component {
     data: null,
     parentId: null,
   };
+  
+//   static getDerivedStateFromProps(nextProps, prevState){
+//     if(nextProps.task!==prevState.task){
+//       return { data: nextProps.task.data};
+//    }
+//    else return null;
+//  }
+
+    componentWillMount() {
+        
+        this.setState({ data: this.props.task.data });
+    }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.task !== this.props.task) {
-      console.log("mam cie");
       this.setState({ data: nextProps.task.data });
     }
   }
